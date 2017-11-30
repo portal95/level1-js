@@ -1,3 +1,57 @@
+<<<<<<< HEAD
+#wrap{width: 500px; margin: 0 auto; }
+#content{width: 306px; margin: 0 auto; }
+
+h1{ 
+	font-size: 50px; 
+	font-family: "Comic Sans MS", 
+	cursive, sans-serif; 
+	margin: 40px; 
+	text-align: center; 
+	color: #421451;
+    }
+
+.board {
+	 display: inline-block; 
+	 font-family: "Papyrus";
+	 width: 100px; 
+	 height: 100px;
+	 color: #fff;
+	 font-size: 50px;
+	 text-align: center; 
+	 vertical-align: middle; 
+	 line-height: 100px; 
+	 background-color: #0e4934;
+	 border: 1px solid #844c03;
+	 border-radius: 0 0 0 0;
+	 outline: none;
+	}
+
+#footer{
+	width: 306px; margin: 0 auto; 
+    }
+
+#rebtn{
+	width:100px;
+	height:50px;
+	margin: 20px auto;
+	font-family: "Comic Sans MS";
+	font-size: 20px;
+	color: white;
+	background-color: #421451;
+    }
+
+#rebtn:hover {
+	background-color: #421451;
+	color: white;
+    }
+
+#rebtn:active {
+	background-color: #6f2108;
+	box-shadow: 0 5px #666;
+	transform: translateY(4px);
+    }
+=======
 #wrap{}
 #header{width: 500px; height: 100px; margin: 0 auto;}
 #center{width: 500px; height: 400px; margin: 0 auto;}
@@ -52,3 +106,4 @@ button:hover {
 	color:white;
     }
 
+>>>>>>> honux/jl
