@@ -5,8 +5,14 @@ var ctx = canvas.getContext("2d");
 var catImage = [];
 catImage[0] = new Image();
 catImage[1] = new Image();
+
+var catLoad = false;
+catImage.onload = function() {
+	catLoad = true;
+}
 catImage[0].src = "cat1.png";
 catImage[1].src = "cat2.png";
+
 //배경 그림 부르기
 var bg = new Image();
 var bgLoad = false;
@@ -17,9 +23,14 @@ bg.src = 'bg.png';
 
 //장애물  그림 부르기
 var objImage = new Image();
+var objLoad = false;
+objImage.onload = function() {
+	objLoad = true;
+}
 objImage.src = "obj.png";
+
 //장애물 변수
-var crab = {
+var Crab = {
 	"sx":35,
 	"sy":460,
 	"w":225,
@@ -29,42 +40,38 @@ var crab = {
 	"width":70,
 	"height":70
 };
-// function crab(x,width,height) {
-// 	this.sx = 35;
-// 	this.sy = 460;
-// 	this.w = 225;
-// 	this.h = 300;
-// 	this.x = 600;
-// 	this.y = 250;
-// 	this.width = 70;
-// 	this.height = 70;
-// }
-// crab.prototype.drawobj = function() {
-// 	ctx.drawImage(objImage,this.sx,this.sy,this.w,this.h
-// 		,this.x,this.y,this.width,this.height);
-// 		this.x -= 3;
-// }
-// function newobj(n) {
-// 	var width = random(30) + 20;
-// 	var x = new crab(650,60,60)
-// }
+
 //장애물 그리기
+var obji = 0;
 function drawobj() {
-	ctx.drawImage(objImage,crab.sx,crab.sy,crab.w,crab.h
-		,crab.x,crab.y,crab.width,crab.height);
-		crab.x -= 3;
+	obji += 3;
+	ctx.drawImage(objImage,Crab.sx,Crab.sy,Crab.w,Crab.h
+		,Crab.x-obji,Crab.y,Crab.width,Crab.height);
+	ctx.drawImage(objImage,Crab.sx,Crab.sy,Crab.w,Crab.h
+		,Crab.x-obji+Crab.x,Crab.y,Crab.width,Crab.height);
+
+		if (obji == Crab.x) {
+			 obji = 0;
+		}
 }
 
 //장애물 충돌감지
 function collision() {
-
-	if (crab.x > catX-15 && crab.x < catX+catwidth-15
-	&& crab.y > catY-15 && crab.y < catY+catheight-15) {
-				debugger;
-				// alert("GAME OVER");
-				document.location.reload();
+	if (Crab.x-obji > catX-15 && Crab.x-obji < catX+catwidth-15
+	&& Crab.y > catY-15 && Crab.y < catY+catheight-15) {
+		gameover();	
+		gameend = true;
 	}
 }
+
+//game over
+function gameover() {
+	ctx.font = "16px Arial";
+	ctx.fillStyle = "red";
+	ctx.font = "40px Verdana";
+	ctx.fillText("GAME OVER", 150, 170);
+}
+
 //점수 계산
 var score = 0;
 function checkScore() {
@@ -77,8 +84,6 @@ function checkScore() {
 }
 
 //배경 변수
-var sizeX = 550;
-var sizeY = 350;
 var ddx = - 0.75;
 var bgX = 0;
 var i = 0;
@@ -86,10 +91,10 @@ var i = 0;
 function drawbg() {
 	i=i+2;
 	ctx.clearRect(0,0,canvas.width,canvas.height);
-	ctx.drawImage(bg,0 - i,0,sizeX, sizeY);
-	ctx.drawImage(bg,0 - i + sizeX,0,sizeX, sizeY);
+	ctx.drawImage(bg,0 - i,0,canvas.width, canvas.height);
+	ctx.drawImage(bg,0 - i + canvas.width,0,canvas.width, canvas.height);
 
-	if (i == sizeX ) {
+	if (i == canvas.width ) {
 		i = 0;
 	}
 }
@@ -97,7 +102,7 @@ function drawbg() {
 //고양이 사이즈와 초기좌표
 var catwidth = 90;
 var catheight = 90;
-var catX = 100;
+var catX = 120;
 var catY = 220;
 //고양이 움직임
 var dx = 0;
@@ -147,18 +152,38 @@ function jump() {
 	}
 }
 
-//그리기
+//일시정지 함수
+var isRunning = true;
+function pause() {
+	isRunning = !isRunning;
 
-function drawAll() {
-
-	ctx.clearRect(0,0,canvas.width,canvas.height);
-
-	drawbg();
-	drawobj();
-	collision();
-	drawcat();
-	checkScore();
-
-	requestAnimationFrame(drawAll);
+	if(isRunning) {
+		drawAll();
+	}
 }
-requestAnimationFrame(drawAll);
+
+//재시작 함수
+function start(){
+	document.location.reload();
+}
+
+//그리기
+var gameend = false;
+function drawAll() {
+	if (gameend) {
+		return;
+	} else {
+		ctx.clearRect(0,0,canvas.width,canvas.height);
+		drawbg();
+		drawobj();
+		collision();
+		drawcat();
+		checkScore();
+
+		if(isRunning) {
+		requestAnimationFrame(drawAll);
+		}
+	}
+	
+}
+drawAll();

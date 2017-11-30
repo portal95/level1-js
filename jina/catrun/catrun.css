@@ -1,0 +1,18 @@
+h1 {
+	margin-left: 200px;
+	color: black ;
+}
+#pause {
+	width: 46px;
+	height: 41px;
+	position: absolute;
+	top:221px;
+	left:470px;
+}
+#restart {
+	width: 45px;
+	height: 35px;
+	position: absolute;
+	top:224px;
+	left:510px;
+}
